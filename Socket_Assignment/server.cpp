@@ -79,7 +79,23 @@ int main() {
 		// Process [REQ] command
 		if((rawData.find("[REQ]") != std::string::npos)) {
 			std::cout << "Person requested" << std::endl;
-			person myPerson;					// For now just make a person up
+			person myPerson(0);				// Make a new blank person
+
+			// Pasre ID number from the [REQ] command
+			std::string delimiter = "][";
+			int pos, id;
+		
+			// Get rid of the [REQ] tag at the beginning.
+			pos = rawData.find(delimiter);
+			rawData = rawData.substr(pos + 2, std::string::npos);
+		
+			// Parse the ID number
+			pos = rawData.find(delimiter);
+			id = atoi(rawData.substr(0, pos).c_str());
+			std::cout << "Requested ID: " << id << std::endl;
+
+			myPerson.setID(id);					// Set ID number for the requested person
+			myPerson.getDataFromCSV();			// Populate the rest of the data from CSV file
 			myPerson.sendPerson(client_socket);	// Send the person to the client
 		}
 

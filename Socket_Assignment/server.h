@@ -6,9 +6,9 @@
 class person {
 public:
 	// Data manipulator functions
-	void setID(unsigned int number);
+	void setID(int number);
 	void setName(std::string name);
-	void setStNumber(unsigned int number);
+	void setStNumber(int number);
 	void setStName(std::string name);
 	void setCity(std::string name);
 	void setProvince(std::string province);
@@ -21,6 +21,7 @@ public:
 	void sendPerson(int socket);		// Send all data about person to server over socket
 	void getPerson(int socket);			// Request data on a specific person from the server
 	void addToFile();		// Add person to the CSV file
+	void getDataFromCSV();	// Populate the rest of the data from CSV file
 
 	// Constructors
 	person();			// Default - asks user to enter details of a person
@@ -28,9 +29,9 @@ public:
 	person(std::string rawData);	// Makes a new person based on raw input from client
 
 private:
-	unsigned int ID;		// ID number of person
+	int ID;		// ID number of person
 	std::string Name;		// Name of person	
-	unsigned int StNumber;	// Address - Street Number
+	int StNumber;	// Address - Street Number
 	std::string StName;		// Address - Street Name
 	std::string City;		// Address - City Name
 	std::string Province;	// Address - Province Name
@@ -38,7 +39,7 @@ private:
 	std::string PostCode;	// Address - Postal Code	
 };
 
-void person::setID(unsigned int number) {
+void person::setID(int number) {
 	ID = number;
 }
 
@@ -47,7 +48,7 @@ void person::setName(std::string name) {
 	Name = name;
 }
 
-void person::setStNumber(unsigned int number) {
+void person::setStNumber(int number) {
 	StNumber = number;
 }
 
@@ -127,7 +128,41 @@ void person::addToFile() {
 	myFile.open("people.csv", std::ofstream::out | std::ofstream::app);
 
 	myFile << ID << "," << Name << "," << StNumber << "," << StName << "," <<
-		City << "," << Province << "," << Country << "," << PostCode << "\n";
+		City << "," << Province << "," << Country << "," << PostCode << "," << "\n";
+
+	myFile.close();
+}
+
+void person::getDataFromCSV() {
+	// Open file in read mode
+	std::ifstream myFile;
+	myFile.open("people.csv", std::ofstream::in);
+
+	if(myFile.fail()) {
+		perror("Failed to open file");
+		return;
+	}
+
+	std::string data;
+	int id;
+
+	while(!myFile.eof()) {
+		getline(myFile, data, ',');
+		id = atoi(data.c_str());
+
+		if(id == ID) {
+			std::cout << "Found requested person in CSV file" << std::endl;
+			getline(myFile, Name, ',');	// Read Name
+			getline(myFile, data, ',');	// Read Street Number
+			StNumber = atoi(data.c_str());
+			getline(myFile, StName, ',');	// Read Street Name
+			getline(myFile, City, ',');	// Read City
+			getline(myFile, Province, ',');	// Read Province
+			getline(myFile, Country, ',');	// Read Country
+			getline(myFile, PostCode, ',');	// Read Postal Code
+			break;
+		}
+	}
 
 	myFile.close();
 }
