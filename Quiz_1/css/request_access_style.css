@@ -1,0 +1,72 @@
+/* 
+CSS Stylesheet for quiz 1
+*/
+
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+label{
+    display:inline-block;
+    width:100px;
+}
+
+legend {
+	background-color: black;
+	color: white;
+	border-radius: 5px
+}
+
+button {
+	background-color: black;
+	color: white;
+	border-radius: 5px;
+	position:relative;
+	float:center;
+}
+
+button:hover {
+	background-color: white;
+	color: black;
+}
+
+button:active {
+	background-color: grey;
+	color: white;
+}
+
+.fieldset-auto-width {
+     display: inline-block;
+}
+
+.background-image { 
+	background: url("../images/Conestoga_College_Cambridge_Campus.JPG") no-repeat center center fixed;
+	background-color: white;
+	-webkit-background-size: cover;
+	-moz-background-size: cover;
+	background-size: cover;
+	-o-background-size: cover;
+}
+
+.textpanel {
+	position:relative;
+}
+
+.textpanel img {
+	display: block;
+	height: 100px;
+	width: 100px;
+}
+
+.textpanel textarea {
+	position: absolute;
+	top: -10px;
+	left: 0px;
+	color: black;
+	background-color: rgba(255,255,255,0.5);
+}
+
+footer {
+	background-color: rgba(255,255,255,0.5);
+}

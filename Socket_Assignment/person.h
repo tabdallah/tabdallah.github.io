@@ -1,5 +1,5 @@
 /* Header file for the person class */
-#include <stdio>
+#include <cstdio>
 
 /* Creating a class to hold all the information about a person for this assignment */
 class person {
@@ -17,6 +17,7 @@ public:
 	// Accessor functions
 	void printPerson();		// Print persons name and ID number
 	void printAddress();	// Print peresons address
+	void sendPerson(int socket);		// Send all data about person to server over socket
 
 	// Constructor
 	person();
@@ -75,6 +76,13 @@ void person::printAddress() {
 	std::cout << StNumber << " " << StName << std::endl;
 	std::cout << City << ", " << Province << ", " << Country << std::endl;
 	std::cout << PostCode << std::endl;
+}
+
+void person::sendPerson(int socket) {
+	char *data;
+
+	write(socket, (char*) Name.c_str(), Name.length());
+	write(socket, (char*)&ID, sizeof(ID));
 }
 
 person::person() {

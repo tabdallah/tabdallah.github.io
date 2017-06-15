@@ -4,6 +4,7 @@
 #include <netinet/in.h>	// hostent and sockaddr structure def's
 #include <netdb.h>		// gethostbyname function
 #include <unistd.h>		// close()
+#include "person.h"
 
 #define PORT 5000	// Talk to the server using this port
 
@@ -17,7 +18,7 @@ int main(int argc, char *argv[]) {
 	struct hostent *host;
 	int client_socket;
 	int result;
-
+	std::string myString;
 
 
 	// Check that user provided an IP address as input
@@ -63,5 +64,14 @@ int main(int argc, char *argv[]) {
 	}
 	std::cout << "Connection successful." << std::endl;
 
+	// Prompt user to create a new person
+	person thomas;
+
+	// Attempt to transmit person information to server
+	thomas.sendPerson(client_socket);
+
+	//write(client_socket, (char*) myString.c_str(), myString.length());
+
+	close(client_socket);
 	return(0);
 }
