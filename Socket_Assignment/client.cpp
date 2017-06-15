@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
 	int client_socket;
 	int result;
 	std::string myString;
+	int entry;
 
 
 	// Check that user provided an IP address as input
@@ -64,13 +65,28 @@ int main(int argc, char *argv[]) {
 	}
 	std::cout << "Connection successful." << std::endl;
 
-	// Prompt user to create a new person
-	person thomas;
+	for(;;) {
+		std::cout << "----------------------------------" << std::endl;
+		std::cout << "Enter '1' to enter a new person" << std:: endl;
+		std::cout << "Enter '2' to request a specific person" << std:: endl;
+		std::cout << "Enter anything else to exit" << std:: endl;
+		std::cin >> entry;
 
-	// Attempt to transmit person information to server
-	thomas.sendPerson(client_socket);
+		if(entry == 1) {
+			person myPerson;					// Create a new person and send to the server
+			myPerson.sendPerson(client_socket);	// Send the person to the server
+		}
+		else if(entry == 2) {
+			person myPerson(1);
+			myPerson.getPerson(client_socket);		// Get the persons info from the server
+			myPerson.printPerson();		// Print the persons name and ID number
+			myPerson.printAddress();	// Print the persons address
+		}
+		else {
+			break;
+		}
+	}
 
-	//write(client_socket, (char*) myString.c_str(), myString.length());
 
 	close(client_socket);
 	return(0);
