@@ -4,7 +4,7 @@
 #include <netinet/in.h>	// hostent and sockaddr structure def's
 #include <netdb.h>		// gethostbyname function
 #include <unistd.h>		// close()
-#include "person.h"
+#include "client.h"
 
 #define PORT 5000	// Talk to the server using this port
 
