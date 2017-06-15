@@ -1,5 +1,6 @@
 /* Header file for the person class */
 #include <cstdio>
+#include <cstdlib>
 
 /* Creating a class to hold all the information about a person for this assignment */
 class person {
@@ -18,11 +19,12 @@ public:
 	void printPerson();		// Print persons name and ID number
 	void printAddress();	// Print peresons address
 	void sendPerson(int socket);		// Send all data about person to server over socket
-	void getPerson(int socket);			// Request data on a specific person from the server
 
 	// Constructors
 	person();			// Default - asks user to enter details of a person
 	person(int option);	// Makes a blank person, or a person with an ID number
+	person(std::string rawData);	// Make a new person based on raw data from the server
+
 
 private:
 	unsigned int ID;		// ID number of person
@@ -93,30 +95,6 @@ void person::sendPerson(int socket) {
 		perror("Failed to write New person data");
 	}
 }
-
-void person::getPerson(int socket) {
-	char buffer[BUFSIZ];
-	std::string myString;
-
-	// Write request & ID number to the server
-	memset(buffer, 0, BUFSIZ);
-	sprintf(buffer, "[REQ][%i]", ID);
-	if(write(socket, &buffer, strlen(buffer)) < 1) {
-		perror("Failed to write Request message");
-	}
-
-	// Read response data
-	memset(buffer, 0, BUFSIZ);
-	if(recv(socket, buffer, sizeof(buffer), 0) < 0) {
-		perror("Did not receive persons data from server");
-	}
-
-	// Parse persons data
-	myString = buffer;
-	std::cout << "String: " << myString << std::endl;
-
-}
-
 person::person() {
 	std::cout << "Creating a new person." << std::endl;
 
@@ -155,4 +133,51 @@ person::person(int option) {
 		std::cout << "Enter ID number for person." << std::endl;
 		std::cin >> ID;
 	}
+}
+
+person::person(std::string rawData) {
+	std::string delimiter = "][";
+	int pos;
+
+	// Get rid of the [NEW] tag at the beginning.
+	pos = rawData.find(delimiter);
+	rawData = rawData.substr(pos + 2, std::string::npos);
+	
+	// Parse the ID number
+	pos = rawData.find(delimiter);
+	ID = atoi(rawData.substr(0, pos).c_str());
+	rawData = rawData.substr(pos + 2, std::string::npos);
+	
+	// Parse the Name
+	pos = rawData.find(delimiter);
+	Name = rawData.substr(0, pos);
+	rawData = rawData.substr(pos + 2, std::string::npos);
+
+	// Parse the Street Number
+	pos = rawData.find(delimiter);
+	StNumber = atoi(rawData.substr(0, pos).c_str());
+	rawData = rawData.substr(pos + 2, std::string::npos);
+
+	// Parse the StName
+	pos = rawData.find(delimiter);
+	StName = rawData.substr(0, pos);
+	rawData = rawData.substr(pos + 2, std::string::npos);
+
+	// Parse the City
+	pos = rawData.find(delimiter);
+	City = rawData.substr(0, pos);
+	rawData = rawData.substr(pos + 2, std::string::npos);
+
+	// Parse the Province
+	pos = rawData.find(delimiter);
+	Province = rawData.substr(0, pos);
+	rawData = rawData.substr(pos + 2, std::string::npos);
+
+	// Parse the Country
+	pos = rawData.find(delimiter);
+	Country = rawData.substr(0, pos);
+	rawData = rawData.substr(pos + 2, std::string::npos);
+
+	// Parse the Postal Code
+	PostCode = rawData.substr(0, rawData.length() - 1);	// pos-1 to strip off the trailing ']' at the end of the raw data
 }

@@ -77,12 +77,37 @@ int main(int argc, char *argv[]) {
 			myPerson.sendPerson(client_socket);	// Send the person to the server
 		}
 		else if(entry == 2) {
-			person myPerson(1);
-			myPerson.getPerson(client_socket);		// Get the persons info from the server
+			int ID;
+
+			std::cout << "Enter an ID number of person: ";
+			std::cin >> ID;
+
+			char buffer[BUFSIZ];
+
+			// Write request & ID number to the server
+			memset(buffer, 0, BUFSIZ);
+			sprintf(buffer, "[REQ][%i]", ID);
+			if(write(client_socket, &buffer, strlen(buffer)) < 1) {
+				perror("Failed to write Request message");
+			}
+
+			// Read response data
+			memset(buffer, 0, BUFSIZ);
+			if(recv(client_socket, buffer, sizeof(buffer), 0) < 0) {
+				perror("Did not receive persons data from server");
+			}			
+
+			// Process response data
+			myString = buffer;
+			person myPerson(myString);
+
+			// Print persons data
 			myPerson.printPerson();		// Print the persons name and ID number
 			myPerson.printAddress();	// Print the persons address
 		}
 		else {
+			std::string str_buffer = "[END]";
+			write(client_socket, (char*)str_buffer.c_str(), str_buffer.length());
 			break;
 		}
 	}
