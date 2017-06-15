@@ -86,9 +86,10 @@ int main() {
 		// Process [NEW] command
 		if((rawData.find("[NEW]") != std::string::npos)) {
 			std::cout << "New person received" << std::endl;
-			person myPerson(rawData);	// Process that shit into a new person
-			myPerson.printPerson();
-			myPerson.printAddress();
+			person myPerson(rawData);	// Process raw data into a new person
+			myPerson.addToFile();		// Add person to the CSV file
+			myPerson.printPerson();		// Print out person number and name for debugging
+			myPerson.printAddress();	// Print out person address for debugging
 		}
 	}
 

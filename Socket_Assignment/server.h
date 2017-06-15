@@ -1,5 +1,6 @@
 /* Header file for the person class */
 #include <cstdio>
+#include <fstream>  
 
 /* Creating a class to hold all the information about a person for this assignment */
 class person {
@@ -19,6 +20,7 @@ public:
 	void printAddress();	// Print peresons address
 	void sendPerson(int socket);		// Send all data about person to server over socket
 	void getPerson(int socket);			// Request data on a specific person from the server
+	void addToFile();		// Add person to the CSV file
 
 	// Constructors
 	person();			// Default - asks user to enter details of a person
@@ -116,6 +118,18 @@ void person::getPerson(int socket) {
 	myString = buffer;
 	std::cout << "String: " << myString << std::endl;
 
+}
+
+void person::addToFile() {
+
+	// Open file in append mode
+	std::ofstream myFile;
+	myFile.open("people.csv", std::ofstream::out | std::ofstream::app);
+
+	myFile << ID << "," << Name << "," << StNumber << "," << StName << "," <<
+		City << "," << Province << "," << Country << "," << PostCode << "\n";
+
+	myFile.close();
 }
 
 person::person() {
