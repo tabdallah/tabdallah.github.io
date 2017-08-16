@@ -1,0 +1,111 @@
+html {
+	position: relative;
+	min-height: 100%;
+}
+
+body { 
+	font-family: Arial, Tahoma, Georgia, serif; /* Default font - Tahoma */
+	color: white;
+	margin-top: 50px; /* Footer */
+	margin-bottom: 50px; /* Navbar */
+	background-color:rgba(0, 0, 0, 0);
+} 
+
+article{
+	background-color:rgba(0, 0, 0, 0.5);
+}
+
+hr {
+	border-color: grey;
+}
+
+form {	
+	width:40%; 
+	padding-top: 20px;
+	padding-bottom: 20px;
+}
+
+footer {
+	position: absolute;
+	bottom: 0;
+	width: 100%;
+	height: 50px;
+	padding: 1rem;
+	color: grey; 
+	background-color:rgba(0, 0, 0, 0.7);
+}
+
+.background-image { 
+	background: url("../images/thomas.jpg") center fixed;
+	background-repeat: repeat
+	background-color: black;
+}
+
+@media(max-width: 480px) {
+	h1 {font-size: 160%;}
+	h2 {font-size: 140%;}
+	form {min-width:100%;}
+}
+
+/* General formatting for iframe elements */
+.iframe-1 {
+	position: relative;
+	padding-bottom: 65.25%;
+	padding-top: 0px;
+	height: 0;
+	overflow: hidden; 
+	-webkit-overflow-scrolling:touch;
+	border: solid grey 1px;
+	display:block;
+} 
+
+.iframe-1 iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+}
+
+.fieldset-auto {
+     width: 150px;
+     display: inline-block;
+     text-align: center;
+     border: 1px solid grey;
+     border-radius: 5px
+}
+
+legend {
+	width: 250px;
+	background-color: #6388CB;
+	color: white;
+	border-radius: 5px;
+	border-color: grey;
+	font-size: 20px;
+	text-align: center;
+}
+
+fieldset { 
+	padding-top: 0px;
+	padding-bottom: 10px;
+	padding-left: 10px;
+	padding-right: 10px;
+    border: 1px solid white;
+    border-radius: 5px;
+}
+
+.warning {
+	display: block;
+	color: white;
+	text-align: center;
+}
+
+/* Table formatting */
+table, th, td{
+	border-style: hidden;
+	border: none;
+	border-spacing: 3px;
+	text-align: center;
+	empty-cells: hide;
+	padding: 2px;
+}

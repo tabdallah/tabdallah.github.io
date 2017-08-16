@@ -1,0 +1,57 @@
+<?php include 'php/members_only.php';?>	
+
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Software Engineering Quiz 2 Members Page</title>
+
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta name="description" content="This is the members page for the Software Engineering Quiz 2 Solution"/>
+	<meta name="robots" content="noindex nofollow"/>
+	<meta http-equiv="author" content="Thomas Abdallah"/>
+	<meta http-equiv="pragma" content="no-cache"/>
+
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+	<link href="./css/midterm.css" type="text/css" rel="stylesheet">
+</head>
+
+<body class="background-image">
+	<header>
+		<nav class="navbar navbar-inverse navbar-fixed-top">
+			<?php include 'php/top_menu.php';?>
+		</nav>
+	</header>
+
+	<article class="container text-center">
+		<h1>Software Engineering Quiz 2 Members Page</h1>
+		<form class="center-block" action="php/change_floor.php" id="submit" method="post">
+			<fieldset class="fieldset-auto-width">
+				<legend>Set Floor Number</legend>				
+				<div class="form-group">
+					<input type="floor" class="form-control" name="floor" id="floor" placeholder="Enter a floor number">
+				</div>
+				<div class="pull-right">
+					<button type="submit" class="btn btn-default center-block">Submit</button>
+				</div>
+			</fieldset>
+		<br>
+		</form>
+
+		<h2>The car is on on floor: </h2>
+
+		<h2>Database contents</h2>
+		<?php include 'php/query_db.php';?>
+
+	</article>
+	
+	<footer class="container-fluid text-center">
+		<p>Copyright &copy; Thomas Abdallah</p>
+	</footer>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+</body>
+
+</html>
