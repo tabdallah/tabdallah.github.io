@@ -126,6 +126,10 @@ void person::addToFile() {
 	// Open file in append mode
 	std::ofstream myFile;
 	myFile.open("people.csv", std::ofstream::out | std::ofstream::app);
+	if(myFile.fail()) {
+		perror("Failed to open file");
+		return;
+	}
 
 	myFile << ID << "," << Name << "," << StNumber << "," << StName << "," <<
 		City << "," << Province << "," << Country << "," << PostCode << "," << "\n";
@@ -147,6 +151,7 @@ void person::getDataFromCSV() {
 	int id;
 
 	while(!myFile.eof()) {
+		// Read ID (first column in each line)
 		getline(myFile, data, ',');
 		id = atoi(data.c_str());
 
@@ -161,6 +166,16 @@ void person::getDataFromCSV() {
 			getline(myFile, Country, ',');	// Read Country
 			getline(myFile, PostCode, ',');	// Read Postal Code
 			break;
+		}
+		else{
+			// Read the other elements on this line so we don't mistake them for an ID
+			getline(myFile, data, ',');	// 2nd column = Name
+			getline(myFile, data, ','); // 3rd column = St Number
+			getline(myFile, data, ','); // 4th column = St Name
+			getline(myFile, data, ','); // 5th column = City
+			getline(myFile, data, ','); // 6th column = Province
+			getline(myFile, data, ','); // 7th column = Country 
+			getline(myFile, data, ','); // 8th column = Postal Code
 		}
 	}
 
