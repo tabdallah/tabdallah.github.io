@@ -2,6 +2,8 @@
 var users_data = {};
 var users = document.getElementById('users');
 var form = document.getElementById('submit');
+var profile_data = {};
+var blog_data = {};
 
 window.onload = function start(){
   // Check if the users table exits
@@ -160,7 +162,7 @@ function showBlog() {
   }
 
 
-  if(Object.keys(blog_data).length == 1) {
+  if(Object.keys(blog_data).length == 0) {    
     // Insert no blog posts into table
     var tr = document.createElement("tr");
     var data = document.createElement("td");

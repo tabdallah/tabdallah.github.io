@@ -68,7 +68,7 @@
 			$query_result = $database->query($query);
 
 			// Check if there are any blog posts
-			if($query_result->rowCount() > 0) {
+			if($query_result->rowCount() >= 0) {
 				foreach($query_result as $row) {
 					$new_row = array('title'=>$row['title'], 'content'=>$row['content'], 'timestamp'=>$row['timestamp']);
 					array_push($data, $new_row);
@@ -79,7 +79,7 @@
 				echo $json_data;
 			}
 			else {
-				echo '{"Error": "No Blog Entries"}';	
+				//echo '{"Error": "No Blog Entries"}';	
 			}	
 		}
 
@@ -99,7 +99,6 @@
 			}
 			else {
 				throw new Exception('Error: MySQL query returned no user ID.');
-				return 0;
 			}
 		}
 
