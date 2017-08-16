@@ -18,7 +18,7 @@ if (isset($_SESSION["username"]))
 			
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-					<li><a href="blogs.html">View Blogs</a></li>
+					<li><a href="blogs.html">View Logbooks</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
 					<li><a href="./php/logout.php"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
@@ -39,10 +39,10 @@ else {
 			
 			<div class="collapse navbar-collapse" id="myNavbar">
 				<ul class="nav navbar-nav">
-					<li><a href="blogs.html">View Blogs</a></li>
+					<li><a href="blogs.html">View Logbooks</a></li>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
-					<li><a href="request_access.html">Sign up</a></li>
+					<li><a href="request_access.html">Register</a></li>
 					<li><a href="login.html"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 				</ul>
 			</div>

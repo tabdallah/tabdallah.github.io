@@ -6,6 +6,8 @@ window.onload = function start() {
 	var username_alert = document.getElementById('username_alert');
 	var password = document.getElementById('password');
 	var password_alert = document.getElementById('password_alert');
+	var email = document.getElementById('email');
+	var email_alert = document.getElementById('email_alert');
 	var form = document.getElementById('submit');
 
 	form.onsubmit = function() {
@@ -15,6 +17,10 @@ window.onload = function start() {
 		}
 		if(password.value.length < 7) {
 			password_alert.innerHTML = '<i>7 character minimum</i>';
+			return false;
+		}
+		if(email.value.length < 7) {
+			email_alert.innerHTML = '<i>7 character minimum</i>';
 			return false;
 		}
 	}

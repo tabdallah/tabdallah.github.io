@@ -8,6 +8,21 @@ window.onload = function start(){
   if (!users) {
     console.log('This is a user rendering');
 
+    // Make an Ajax call to get the users info
+    
+    console.log('Running get_profile.php');
+    $.ajax({
+            url: '../php/get_profile.php',
+            dataType: 'json',
+            success: function(data) {
+                profile_data = data;
+                console.log(profile_data);
+            },
+            error: function() {
+              console.log('get_profile.php failed.');
+            }
+        });
+
     // Make an Ajax call to get the blog post info
     console.log('Running get_blog.php');
 
@@ -90,10 +105,10 @@ function showBlog() {
   var header = document.getElementById('blog_header');
   
   if (!users) {
-    header.innerHTML = "Your Blog Entires";
+    header.innerHTML = "Your Logbook Entires";
   }
   else {
-    header.innerHTML = username.value + "'s Blog";
+    header.innerHTML = username.value + "'s Logbook";
   }
 
   // Clear existing table
@@ -107,7 +122,7 @@ function showBlog() {
     // Insert no blog posts into table
     var tr = document.createElement("tr");
     var data = document.createElement("td");
-    data.appendChild(document.createTextNode('No Blog Posts'));
+    data.appendChild(document.createTextNode('No Logbook Entries'));
     tr.appendChild(data);
     table.appendChild(tr);
   }

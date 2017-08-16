@@ -15,7 +15,7 @@
 				<br>		
 				<form class="center-block">
 					<fieldset class="fieldset-auto-width">
-						<legend>Available Blogs</legend>
+						<legend>Available Logbooks</legend>
 						<div>
 							<table align="center" id="users">
 								<thead>
@@ -31,7 +31,7 @@
 				<br>
 				<form class="center-block" id="submit" method="post">
 					<fieldset class="fieldset-auto-width">
-						<legend>Retrieve a Blog</legend>				
+						<legend>Retrieve a Logbooks</legend>				
 						<div class="form-group">
 							<input type="username" class="form-control" name="username" id="username" placeholder="Enter a Username">
 						</div>
@@ -44,7 +44,11 @@
 				');
 
 			// Predefine the table for the blog entires
-			echo('<h2 id="blog_header"></h2>');
+			echo('<h2 id="profile_header"></h2>');
+			echo('<p id="profile_id"></p>');
+			echo('<p id="profile_username"></p>');
+			echo('<p id="profile_email"></p>');
+			echo('<br><h2 id="blog_header"></h2>');
 			echo('<div>');
 			echo('<table align="center" id="blogs">');
 			echo('<thead></thead>');
@@ -99,14 +103,36 @@
 			}
 		}
 
+		// Function to get a users email from a username
+		public function getEmail($username) {
+			include "connect_db.php";		// Connect to the remote database
+
+			//check if the username entered is in the database.
+			$query = "SELECT * FROM users WHERE username = '".$username."'";
+			$query_result = $database->query($query);
+
+			// Check if query returned anything
+			if($query_result->rowCount() > 0) {
+				foreach($query_result as $row_query) {
+					return $row_query['email'];
+		        }
+			}
+			else {
+				throw new Exception('Error: MySQL query returned no user Email.');
+				return 0;
+			}
+		}
+
 
 	}// End of Guest Class
 
 	// Class definition for registered users
 	class User extends Guest {
 		// Properties of a User
+		private $id = 0;
 		private $username;
 		private $password;
+		private $email;
 
 		// Constructor accepts username, password and id in that order
 		public function __construct() {
@@ -114,6 +140,10 @@
 			$argv = func_get_args();
 			$this->username = $argv[0];
 			$this->password = $argv[1];
+
+			if(func_num_args() > 2) {
+				$this->email = $argv[2];
+			}
 		}		
 
 		// Accessor functions for the User class
@@ -121,21 +151,46 @@
 			return $this->username;
 		}
 
-		public function getPassword(){
-			return $this->password;
+		// Function to get a users password from a username
+		public function getPassword($username) {
+			include "connect_db.php";		// Connect to the remote database
+
+			//check if the username entered is in the database.
+			$query = "SELECT * FROM users WHERE username = '".$username."'";
+			$query_result = $database->query($query);
+
+			// Check if query returned anything
+			if($query_result->rowCount() > 0) {
+				foreach($query_result as $row_query) {
+					return $row_query['password'];
+		        }
+			}
+			else {
+				throw new Exception('Error: MySQL query returned no user password.');
+				return 0;
+			}
 		}
 
 		// Login, logout, request access functions
 		public function requestAccess() {
 			include "connect_db.php";		// Connect to the remote database			
 
+			// Check that this username doesn't already exist.
+			$query = "SELECT * FROM users WHERE username = '".$this->username."'";
+			$query_result = $database->query($query);
+
+			if($query_result->rowCount() > 0) {
+				throw new Exception('Request access failed.  Username already taken.');
+			}
+
 			// Prep a query for inputting into the database
-			$query = 'INSERT INTO users (username, password) VALUES(:username, :password)';
+			$query = 'INSERT INTO users (username, password, email) VALUES(:username, :password, :email)';
 			$statement = $database->prepare($query);
 			
 			$params = [
 				'username' => $this->username,
 				'password' => $this->password,
+				'email' => $this->email,
 			];
 
 			// Execute the query
@@ -154,7 +209,7 @@
 			$query_result = $database->query($login_query);
 
 			//conditions
-			if($query_result != FALSE) {
+			if($query_result->rowCount() > 0) {
 				foreach($query_result as $row_query) {
 					// check if password are equal
 			        if($row_query['password']==$this->password)
@@ -168,14 +223,12 @@
 			        }
 			        else
 					{
-						echo "Invalid login info.";
-						header("Location: ../login.html"); // Redirect browser
-						exit();
+						throw new Exception('Login error: Invalid credentials');
 					}
 				}
 			}
 			else {
-				throw new Exception('Login error: MySQL query failed.');
+				throw new Exception('Login error: Username does not exist.');
 			}
 			
 			echo "Invalid login info.";
@@ -199,7 +252,7 @@
 		echo('
 			<form class="center-block" action="php/new_blog.php" id="submit" method="post">
 				<fieldset class="fieldset-auto-width">
-					<legend>New Blog Post</legend>				
+					<legend>New Logbook Entry</legend>				
 					<div class="form-group">
 						<input type="title" class="form-control" name="title" id="title" placeholder="Enter a Title">
 					</div>
