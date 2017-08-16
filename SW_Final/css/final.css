@@ -20,9 +20,14 @@ hr {
 }
 
 form {	
-	width:40%; 
+	width:60%; 
 	padding-top: 20px;
 	padding-bottom: 20px;
+}
+
+
+.form-auto{
+	width:100%;
 }
 
 footer {
@@ -73,6 +78,11 @@ footer {
      text-align: center;
      border: 1px solid grey;
      border-radius: 5px
+}
+
+.fieldset-60-width {
+     width: 60%;
+     display: inline-block;
 }
 
 legend {

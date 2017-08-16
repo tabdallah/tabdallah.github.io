@@ -23,11 +23,11 @@
 		$email = $user->getEmail($username);
 
 		if($guest) {
-			$data = array('id'=>$id, 'email'=>$email);
+			$data = array('username'=>$username, 'id'=>$id, 'email'=>$email);
 		}
 		else {
 			$password = $user->getPassword($username);
-			$data = array('id'=>$id, 'email'=>$email, 'password'=>$password);
+			$data = array('username'=>$username, 'id'=>$id, 'email'=>$email, 'password'=>$password);
 		}
 
 		$json_data = json_encode($data);

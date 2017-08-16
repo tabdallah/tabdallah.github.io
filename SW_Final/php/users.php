@@ -171,6 +171,28 @@
 			}
 		}
 
+		public function setEmail($email){
+			include "connect_db.php";		// Connect to the remote database			
+
+			$query = "UPDATE users SET email = '" . $email . "' WHERE username = '" . $this->username . "'";
+			$query_result = $database->query($query);
+
+			if($query_result->rowCount() > 0) {
+				throw new Exception('Email update failed.');
+			}
+		}
+
+		public function setPassword($password){
+			include "connect_db.php";		// Connect to the remote database			
+
+			$query = "UPDATE users SET password = '" . $password . "' WHERE username = '" . $this->username . "'";
+			$query_result = $database->query($query);
+
+			if($query_result->rowCount() > 0) {
+				throw new Exception('Password update failed.');
+			}
+		}
+
 		// Login, logout, request access functions
 		public function requestAccess() {
 			include "connect_db.php";		// Connect to the remote database			
@@ -249,33 +271,84 @@
 		// Function to generate the page for the user
 		public function generatePage() {
 		// Let users add new blog entries
+			//<fieldset class="fieldset-auto-width">
 		echo('
-			<form class="center-block" action="php/new_blog.php" id="submit" method="post">
-				<fieldset class="fieldset-auto-width">
-					<legend>New Logbook Entry</legend>				
-					<div class="form-group">
-						<input type="title" class="form-control" name="title" id="title" placeholder="Enter a Title">
-					</div>
-					<div class="form-group">
+			<br>
+			<div class="row">
+				<div class="col-sm-6">
+					
+					
+						<fieldset class="fieldset-60-width">
+							
+							<legend>Update Profile</legend>
 
-					<div class="form-group">
-						<label for="info">Content:</label>
-						<textarea class="form-control" rows="5" id="content" name="content" placeholder="Details..."></textarea>
-					</div>
+							<form class="form-auto" action="php/update_email.php" id="submit_email" method="post">
+								<div class="form-group">
+									<label class="pull-left" for="email">Email:</label>
+									<input type="email" class="form-control" name="email" id="email">
+								</div>
+								<div class="pull-right">
+									<button type="submit_email" class="btn btn-default">Update</button>
+								</div>
+							</form>
+							
+							<form class="form-auto" action="php/update_password.php" id="submit_password" method="post">
+								<div class="form-group">
+									<label class="pull-left" for="password">Password:</label>
+									<input type="password" class="form-control" name="password" id="password">
+									<div id="password_alert" class="warning">
+									</div>
+								</div>
+								<div class="pull-right">
+									<button type="submit_password" class="btn btn-default">Update</button>
+								</div>
+							</form>
 
-					<div class="pull-right">
-						<button type="submit" class="btn btn-default center-block">Submit</button>
+						</fieldset>
+					
+				</div>
+
+				<div class="col-sm-6">
+					<h2 id="profile_header"></h2>
+					<p id="profile_id"></p>
+					<p id="profile_username"></p>
+					<p id="profile_password"></p>
+					<p id="profile_email"></p>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-sm-6">
+					<form class="center-block" action="php/new_blog.php" id="submit" method="post">
+						<fieldset class="fieldset-auto-width">
+							<legend>New Logbook Entry</legend>				
+							<div class="form-group">
+								<input type="title" class="form-control" name="title" id="title" placeholder="Enter a Title">
+							</div>
+							<div class="form-group">
+
+							<div class="form-group">
+								<label for="info">Content:</label>
+								<textarea class="form-control" rows="5" id="content" name="content" placeholder="Details..."></textarea>
+							</div>
+
+							<div class="pull-right">
+								<button type="submit" class="btn btn-default center-block">Submit</button>
+							</div>
+						</fieldset>
+					</form>					
+				</div>
+
+				<div class="col-sm-6">
+					<h2 id="blog_header"></h2>
+					<div>
+						<table align="center" id="blogs">
+						<thead></thead>
+						</table></div>	
 					</div>
-				</fieldset>
-			</form>
+				</div>		
+			</div>		
 			');
-
-		// Predefine the table for the blog entires
-		echo('<h2 id="blog_header"></h2>');
-		echo('<div>');
-		echo('<table align="center" id="blogs">');
-		echo('<thead></thead>');
-		echo('</table></div>');
 
 		echo('<script src="js/blogs.js"></script>');
 		}

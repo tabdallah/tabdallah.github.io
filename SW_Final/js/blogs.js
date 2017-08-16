@@ -9,7 +9,6 @@ window.onload = function start(){
     console.log('This is a user rendering');
 
     // Make an Ajax call to get the users info
-    
     console.log('Running get_profile.php');
     $.ajax({
             url: '../php/get_profile.php',
@@ -39,7 +38,6 @@ window.onload = function start(){
             }
         });
     return false;
-
 
   }
   else {
@@ -73,6 +71,26 @@ window.onload = function start(){
         return false;
       }
 
+      // Make an Ajax call to get the users info
+      console.log('Running get_profile.php');
+      $.ajax({
+              url: '../php/get_profile.php',
+              type:'POST',
+              data:
+              {
+                username: username.value
+              },
+              dataType: 'json',
+              success: function(data) {
+                  profile_data = data;
+                  console.log(profile_data);
+              },
+              error: function() {
+                console.log('get_profile.php failed.');
+              }
+          });
+
+
       // Make an Ajax call to get the blog post info
       console.log('Running get_blog.php');
 
@@ -102,8 +120,32 @@ window.onload = function start(){
 // Function that actually pumps the blog data into the table
 function showBlog() {
   // Add the blog data to the page
-  var header = document.getElementById('blog_header');
   
+  // Populate user profile area
+  var profile = document.getElementById('profile_header');
+  if (!users) {
+    profile.innerHTML = "Your Profile Details";
+  }
+  else {
+    profile.innerHTML = username.value + "'s Profile Details";
+  }
+
+  var profile_id = document.getElementById('profile_id');
+  profile_id.innerHTML = "ID Number: " + profile_data.id;
+
+  var profile_username = document.getElementById('profile_username');
+  profile_username.innerHTML = "Username: " + profile_data.username;
+
+  var profile_email = document.getElementById('profile_email');
+  profile_email.innerHTML = "Email: " + profile_data.email;
+
+  if (!users) {
+    var profile_password = document.getElementById('profile_password');
+    profile_password.innerHTML = "Password: " + profile_data.password;
+  }
+
+  // Populate header with username
+  var header = document.getElementById('blog_header');
   if (!users) {
     header.innerHTML = "Your Logbook Entires";
   }
